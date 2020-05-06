@@ -1,0 +1,11 @@
+.hidden {
+  display: none;
+}
+
+.topNav {
+  border-top: 5px solid #3498DB;
+}
+
+.topNav .container {
+  border-bottom: 1px solid #E6EAEE;
+}

@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+    <title>金点子</title>
+    <script src="{% static "common/js/jquery.min.js" %}"></script>
+    <script src="{% static "ideas/js/list.js" %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="{% static "common/css/bulma.min.css" %}" />
+    <link rel="stylesheet" href="{% static "ideas/css/list.css" %}" />
+  </head>
+  <body>
+    {% include "ideas/navbar.html" %}
+    <nav class="panel search-bar">
+      <div class="container">
+        <form action="{% url 'ideas:list' %}">
+          <div class="panel-block">
+            <p class="control has-icons-left">
+              <input
+                name="keywords"
+                class="input"
+                placeholder="搜索"
+                value="{{ request.GET.keywords }}"
+              />
+              <span class="icon is-left">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </span>
+            </p>
+            <button class="button is-link search-button" type="submit">
+              <strong>搜索</strong>
+            </button>
+            <a class="button is-link add-idea">
+              <strong>发表</strong>
+            </a>
+          </div>
+        </form>
+      </div>
+    </nav>
+    <div id="add-idea-modal" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title has-text-centered">金点子</p>
+        </header>
+        <section class="modal-card-body">
+          <form>
+            {% csrf_token %}
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">主题</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <p class="control">
+                    <input
+                      id="title"
+                      name="title"
+                      class="input"
+                    />
+                  </p>
+                  <p id="title-help" class="help is-danger hidden">
+                    请输入主题！
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">内容</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <p class="control">
+                    <textarea
+                      class="textarea"
+                      id="description"
+                      name="description"
+                    ></textarea>
+                  </p>
+                  <p id="description-help" class="help is-danger hidden">
+                    请输入内容！
+                  </p>
+                </div>
+              </div>
+            </div>
+          </form>
+        </section>
+        <footer class="modal-card-foot">
+          <button id="submit-idea" class="button is-success">
+            发布
+          </button>
+          <button id="cancel-add-idea" class="button">
+            取消
+          </button>
+        </footer>
+      </div>
+    </div>
+    <section class="container">
+      {% if ideas %}
+      {% for idea in ideas %}
+      <div class="box content idea-item">
+        <article class="post">
+          <h4>{{idea.title}}</h4>
+          <div class="media">
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  {{idea.description}}
+                </p>
+                <p>
+                  <a href="#">{{idea.user.name}}</a>
+                  {{idea.created_datetime|date:"Y-m-d H:i:s"}}
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+      {% endfor %}
+      <nav
+        class="pagination is-white is-right"
+        role="navigation"
+        aria-label="pagination"
+      >
+        <ul class="pagination-list">
+          {% if ideas.has_previous %}
+          <li>
+            <a
+              id="first-page"
+              class="pagination-link"
+              data-page="1"
+            >
+              首页
+            </a>
+          </li>
+          <li>
+            <a
+              id="previous-page"
+              class="pagination-link"
+              data-page="{{ideas.previous_page_number}}"
+            >
+              上一页
+            </a>
+          </li>
+          {% endif %}
+          <li>
+            <a class="pagination-link is-current">{{ ideas.number }}</a>
+          </li>
+          {% if ideas.has_next %}
+          <li>
+            <a
+              id="next-page"
+              class="pagination-link"
+              data-page="{{ideas.next_page_number}}"
+            >
+              下一页
+            </a>
+          </li>
+          <li>
+            <a
+              id="last-page"
+              class="pagination-link"
+              data-page="{{ideas.paginator.num_pages}}"
+            >
+              尾页
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+      {% else %}
+      <div class="is-flex no-data">
+        <img src="{% static "ideas/img/empty.png" %}" />
+      </div>
+      <div class="is-flex no-data">
+        <div>暂无数据</div>
+      </div>
+      {% endif %}
+    </section>
+  </body>
+</html>
+

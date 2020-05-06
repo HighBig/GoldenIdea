@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+    <title>金点子</title>
+    <script src="{% static "common/js/jquery.min.js" %}"></script>
+    <script src="{% static "activities/js/detail.js" %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="{% static "common/css/bulma.min.css" %}" />
+    <link rel="stylesheet" href="{% static "activities/css/detail.css" %}" />
+  </head>
+  <body>
+    {% include "common/navbar.html" %}
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title">
+            Medium title
+          </h1>
+          <h2 class="subtitle">
+            Medium subtitle
+          </h2>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
+
+

@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+    <title>登录</title>
+    <script src="{% static "common/js/jquery.min.js" %}"></script>
+    <script src="{% static "common/js/particles.js" %}"></script>
+    <script src="{% static "common/js/main.js" %}"></script>
+    <script src="{% static "accounts/js/login.js" %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="{% static "common/css/bulma.min.css" %}" />
+    <link rel="stylesheet" href="{% static "common/css/main.css" %}" />
+    <link rel="stylesheet" href="{% static "accounts/css/login.css" %}" />
+  </head>
+  <body>
+    <div class="columns is-vcentered">
+      <div id="particles-js-left" class="interactive-bg column is-4"></div>
+      <div class="login column is-4 ">
+        <section class="section">
+          <div class="has-text-centered">
+            <img class="login-logo" src="{% static 'accounts/img/evercan.png' %}" />
+          </div>
+          <form>
+            {% csrf_token %}
+            <div class="field">
+              <label class="label">用户名</label>
+              <div class="control has-icons-left">
+                <input
+                  id="username"
+                  class="input"
+                  name="username"
+                  type="text"
+                />
+                <span class="icon is-small is-left">
+                  <i class="fa fa-user"></i>
+                </span>
+              </div>
+              <p id="username-help" class="help is-danger hidden"></p>
+            </div>
+                        
+            <div class="field">
+              <label class="label">密码</label>
+              <div class="control has-icons-left">
+                <input
+                  id="password"
+                  class="input"
+                  name="password"
+                  type="password"
+                />
+                  <span class="icon is-small is-left">
+                    <i class="fa fa-key"></i>
+                  </span>
+                </div>
+                <p id='password-help' class="help is-danger hidden"></p>
+              </div>
+
+              <div class="has-text-centered">
+                <button
+                  id="login-button"
+                  class="button is-vcentered is-primary is-outlined"
+                  type="button"
+                >
+                  登录
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      <div id="particles-js-right" class="interactive-bg column is-4"></div>
+    </div>
+  </body>
+</html>
