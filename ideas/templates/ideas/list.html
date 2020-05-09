@@ -112,7 +112,8 @@
                 </p>
                 <p>
                   <a href="#">{{idea.user.name}}</a>
-                  {{idea.created_datetime|date:"Y-m-d H:i:s"}}
+                  &nbsp;{{ idea.user.department.name }}
+                  <br/>{{idea.created_datetime|date:"Y-m-d H:i:s"}}
                 </p>
               </div>
             </div>
