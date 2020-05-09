@@ -27,14 +27,12 @@ def login_view(request):
 
 
 def logout_view(request):
-    debug(request)
     logout(request)
     return redirect('/accounts/login')
 
 
 @login_required(login_url='/accounts/login')
 def change_password_view(request):
-    debug(request.POST)
     password = request.POST.get('password')
     user = request.user
     user.set_password(password)
