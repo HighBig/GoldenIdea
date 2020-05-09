@@ -39,5 +39,6 @@ def change_password_view(request):
     user = request.user
     user.set_password(password)
     user.save()
+    login(request, user)
 
     return json_response({'is_success': True})
