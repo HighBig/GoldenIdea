@@ -10,7 +10,7 @@
     <script src="{% static "ideas/js/list.js" %}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="{% static "common/css/bulma.min.css" %}" />
-    <link rel="stylesheet" href="{% static "ideas/css/list.css" %}" />
+    <link rel="stylesheet" href="{% static "ideas/css/list.css" %}?v=1" />
   </head>
   <body>
     {% include "ideas/navbar.html" %}
@@ -107,7 +107,7 @@
           <div class="media">
             <div class="media-content">
               <div class="content">
-                <p>
+                <p class="idea-description">
                   {{idea.description}}
                 </p>
                 <p>

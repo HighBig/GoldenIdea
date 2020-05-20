@@ -73,3 +73,7 @@ article.post:last-child {
 .modal-card-foot {
   justify-content: flex-end;
 }
+
+.idea-description {
+  white-space: pre-line;
+}
