@@ -58,7 +58,7 @@ article.post:last-child {
   background-color: #FFFFFF;
 }
 
-.search-button, .add-idea {
+.search-button, .add-idea{
   margin-left: 10px;
 }
 
@@ -72,4 +72,21 @@ article.post:last-child {
 
 .modal-card-foot {
   justify-content: flex-end;
+}
+
+.search-field-box {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.search-field {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.datetimepicker-dummy .datetimepicker-dummy-wrapper {
+  border-color: #dbdbdb;
+  border-radius: 4px;
+  color: #363636;
 }

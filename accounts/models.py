@@ -47,11 +47,16 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, BaseModel):
-    username = models.CharField(max_length=255, unique=True)
-    name = models.CharField(max_length=255)
+    username = models.CharField(
+        max_length=255,
+        unique=True,
+        verbose_name='账号'
+    )
+    name = models.CharField(max_length=255, verbose_name='用户名')
     department = models.ForeignKey(
         'accounts.Department',
         on_delete=models.CASCADE,
+        verbose_name='部门'
     )
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

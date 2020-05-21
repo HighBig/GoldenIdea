@@ -106,4 +106,14 @@ $(document).ready(function() {
     var page = $(this).attr('data-page');
     goToPage(page);
   });
+
+  // Initialize all input of type date
+  var calendars = bulmaCalendar.attach(
+    '[type="date"]',
+    {
+      'color': 'link',
+      'lang': 'zh_cn',
+      'isRange': true
+    }
+  );
 });

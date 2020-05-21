@@ -1,3 +1,9 @@
 from django.contrib import admin
+from ideas.models import Idea
 
-# Register your models here.
+
+class IdeaAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description')
+
+
+admin.site.register(Idea, IdeaAdmin)

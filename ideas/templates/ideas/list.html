@@ -6,35 +6,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
     <title>金点子</title>
-    <script src="{% static "common/js/jquery.min.js" %}"></script>
-    <script src="{% static "ideas/js/list.js" %}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="{% static "common/css/bulma.min.css" %}" />
+    <link rel="stylesheet" href="{% static "common/css/bulma-calendar.min.css" %}" />
     <link rel="stylesheet" href="{% static "ideas/css/list.css" %}" />
+    <script src="{% static "common/js/jquery.min.js" %}"></script>
+    <script src="{% static "common/js/bulma-calendar.min.js" %}"></script>
+    <script src="{% static "ideas/js/list.js" %}"></script>
   </head>
   <body>
     {% include "ideas/navbar.html" %}
     <nav class="panel search-bar">
       <div class="container">
         <form action="{% url 'ideas:list' %}">
-          <div class="panel-block">
-            <p class="control has-icons-left">
+          <div class="search-field-box">
+            <div class="control has-icons-left search-field">
+              <div class="select">
+                <select name="department">
+                  <option value="">
+                    所有部门
+                  </option>
+                  {% for department in departments %}
+                  <option
+                    value="{{department.id}}"
+                    {% if request.GET.department == department.id|stringformat:"i" %}
+                    selected
+                    {% endif %}
+                  >
+                    {{department.name}}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <span class="icon is-left">
+                <i class="fa fa-building-o" aria-hidden="true"></i>
+              </span>
+            </div>
+            <p class="control has-icons-left search-field">
               <input
                 name="keywords"
                 class="input"
-                placeholder="搜索"
+                placeholder="关键词"
                 value="{{ request.GET.keywords }}"
               />
               <span class="icon is-left">
                 <i class="fa fa-search" aria-hidden="true"></i>
               </span>
             </p>
-            <button class="button is-link search-button" type="submit">
-              <strong>搜索</strong>
-            </button>
-            <a class="button is-link add-idea">
-              <strong>发表</strong>
-            </a>
+            <p class="control search-field">
+              <input type="date" lang="zh-cn" />
+            </p>
+            <div>
+              <button class="button is-link search-button" type="submit">
+                <strong>搜索</strong>
+              </button>
+              <a class="button is-link add-idea">
+                <strong>发表</strong>
+              </a>
+            </div>
           </div>
         </form>
       </div>
