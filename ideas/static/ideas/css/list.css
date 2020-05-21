@@ -90,3 +90,7 @@ article.post:last-child {
   border-radius: 4px;
   color: #363636;
 }
+
+.idea-description {
+  white-space: pre-line;
+}

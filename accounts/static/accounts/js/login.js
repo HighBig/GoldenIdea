@@ -65,4 +65,10 @@ $(document).ready(function() {
     $('#password').removeClass('is-danger');
     $('#password-help').addClass('hidden');
   });
+
+  $(document).keyup(function(e) {
+    if (e.keyCode === 13) {
+      $('#login-button').trigger('click');
+    }
+  });
 });

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="{% static "common/css/bulma.min.css" %}" />
     <link rel="stylesheet" href="{% static "common/css/bulma-calendar.min.css" %}" />
-    <link rel="stylesheet" href="{% static "ideas/css/list.css" %}" />
+    <link rel="stylesheet" href="{% static "ideas/css/list.css" %}?v=1" />
     <script src="{% static "common/js/jquery.min.js" %}"></script>
     <script src="{% static "common/js/bulma-calendar.min.js" %}"></script>
     <script src="{% static "ideas/js/list.js" %}"></script>
@@ -136,7 +136,7 @@
           <div class="media">
             <div class="media-content">
               <div class="content">
-                <p>
+                <p class="idea-description">
                   {{idea.description}}
                 </p>
                 <p>
