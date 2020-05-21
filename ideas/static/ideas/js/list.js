@@ -1,4 +1,45 @@
 $(document).ready(function() {
+  var calendarOptions = {
+    'type': 'date',
+    'color': 'link',
+    'lang': 'zh_cn',
+    'isRange': true,
+    'dateFormat': 'YYYY-MM-DD',
+    'showHeader': false,
+    'cancelLabel': '取消',
+    'clearLabel': '清除',
+    'todayLabel': '今天'
+  };
+
+  var startTimestamp = $('[name="start"]').val();
+  if (startTimestamp) {
+    calendarOptions.startDate = new Date(parseInt(startTimestamp));
+  }
+  var endTimestamp = $('[name="end"]').val();
+  if (endTimestamp) {
+    calendarOptions.endDate = new Date(parseInt(endTimestamp));
+  }
+
+  var ideaDate = bulmaCalendar.attach('#idea-date', calendarOptions)[0];
+
+  console.log(ideaDate);
+  $('.datetimepicker-clear-button').attr('type', 'button');
+
+  ideaDate.on('select:start', function(datepicker) {
+    console.log('start');
+    $('[name="start"]').val(datepicker.data.startDate.getTime());
+  });
+
+  ideaDate.on('select', function(datepicker) {
+    $('[name="start"]').val(datepicker.data.startDate.getTime());
+    $('[name="end"]').val(datepicker.data.endDate.getTime());
+  });
+
+  ideaDate.on('clear', function(datepicker) {
+    $('[name="start"]').val('');
+    $('[name="end"]').val('');
+  });
+
   $('.add-idea').click(function() {
     $('#add-idea-modal').addClass('is-active');
   });
@@ -106,14 +147,4 @@ $(document).ready(function() {
     var page = $(this).attr('data-page');
     goToPage(page);
   });
-
-  // Initialize all input of type date
-  var calendars = bulmaCalendar.attach(
-    '[type="date"]',
-    {
-      'color': 'link',
-      'lang': 'zh_cn',
-      'isRange': true
-    }
-  );
 });

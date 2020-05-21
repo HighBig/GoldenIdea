@@ -9,3 +9,8 @@
 .topNav .container {
   border-bottom: 1px solid #E6EAEE;
 }
+
+.navbar.is-white .navbar-brand>a.navbar-item:hover {
+    background-color: unset;
+    color: unset;
+}

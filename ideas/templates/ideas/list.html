@@ -54,7 +54,9 @@
               </span>
             </p>
             <p class="control search-field">
-              <input type="date" lang="zh-cn" />
+              <input id="idea-date" type="date" />
+              <input name="start" type="hidden" value="{{ request.GET.start }}" />
+              <input name="end" type="hidden" value="{{ request.GET.end }}" />
             </p>
             <div>
               <button class="button is-link search-button" type="submit">
