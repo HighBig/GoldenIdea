@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  // For datetime picker
   var calendarOptions = {
     'type': 'date',
     'color': 'link',
@@ -22,7 +23,6 @@ $(document).ready(function() {
 
   var ideaDate = bulmaCalendar.attach('#idea-date', calendarOptions)[0];
 
-  console.log(ideaDate);
   $('.datetimepicker-clear-button').attr('type', 'button');
 
   ideaDate.on('select:start', function(datepicker) {
@@ -39,8 +39,21 @@ $(document).ready(function() {
     $('[name="start"]').val('');
     $('[name="end"]').val('');
   });
+  // End for datetime picker
 
+  // Start for modal
+  var isAddIdea = true;
   $('.add-idea').click(function() {
+    isAddIdea = true;
+    $('#add-idea-modal').addClass('is-active');
+  });
+
+  var currentIdeaId = null;
+  $('.edit-idea').click(function() {
+    isAddIdea = false;
+    currentIdeaId = $(this).attr('data-idea-id');
+    $('#title').val($(this).attr('data-idea-title'));
+    $('#description').val($(this).attr('data-idea-description'));
     $('#add-idea-modal').addClass('is-active');
   });
 
@@ -54,14 +67,21 @@ $(document).ready(function() {
     $('#description-help').addClass('hidden');
   }
 
-  $('#cancel-add-idea').click(function() {
+  $('#close-modal').click(function() {
     closeModal();
   });
 
-  var isAdding = false;
+  var isSubmitting = false;
   $('#submit-idea').click(function() {
-    var title = $('#title').val();
-    var description = $('#description').val();
+    var data = {
+      'title': $('#title').val(),
+      'description': $('#description').val()
+    };
+    var url = '/ideas/create/';
+    if (!isAddIdea) {
+      data.id = currentIdeaId;
+      url = '/ideas/edit/';
+    }
 
     if (title === '' || !title) {
       $('#title').addClass('is-danger');
@@ -69,17 +89,14 @@ $(document).ready(function() {
     } else if (description === '' || !description) {
       $('#description').addClass('is-danger');
       $('#description-help').removeClass('hidden');
-    } else if (!isAdding) {
-      isAdding = true;
+    } else if (!isSubmitting) {
+      isSubmitting = true;
       var csrftoken = $("[name=csrfmiddlewaretoken]").val();
       $.ajax({
         type: "POST",
         headers: { "X-CSRFToken": csrftoken },
-        url: '/ideas/create/',
-        data: {
-          'title': title,
-          'description': description
-        },
+        url: url,
+        data: data,
         success: function (data) {
           if (data.is_success) {
             /*
@@ -89,7 +106,7 @@ $(document).ready(function() {
               position: "top-center"
             });
             */
-            isAdding = false;
+            isSubmitting = false;
             closeModal();
             window.location.href = '/ideas/list/';
           } else {
@@ -98,11 +115,11 @@ $(document).ready(function() {
               type: "is-danger",
               position: "top-center"
             });
-            isAdding = false;
+            isSubmitting = false;
           }
         },
         error: function(response, error) {
-          isAdding = false;
+          isSubmitting = false;
           console.log(error);
         }
       });
@@ -118,33 +135,80 @@ $(document).ready(function() {
     $('#description').removeClass('is-danger');
     $('#description-help').addClass('hidden');
   });
+  // End for modal
+  
+  // For accept idea
+  $('.accept-idea').click(function() {
+    var isAccept = confirm('确认采纳此建议！');
+    if (isAccept) {
+      var actionNode = $(this).parent();
+      var ideaContainer = $(this).parent().parent();
+      $.ajax({
+        type: "GET",
+        url: '/ideas/accept/' + $(this).attr('data-idea-id') + '/',
+        success: function (data) {
+          if (data.is_success) {
+            /*
+            bulmaToast.toast({
+              message: "创建成功！",
+              type: "is-success",
+              position: "top-center"
+            });
+            */
+            actionNode.remove();
+            ideaContainer.append(
+              '<div class="ribbon ribbon-top-right"><span>已采纳</span></div>'
+            );
+          } else {
+            bulmaToast.toast({
+              message: data.error_message,
+              type: "is-error",
+              position: "top-center"
+            });
+          }
+        },
+        error: function(response, error) {
+          console.log(error);
+        }
+      });
+    } else {
+      console.log('calcel accept');
+    }
+  });
+  // End for accept idea
 
-  function goToPage(page) {
+  function getPageUrl(page) {
     pageUrl = '?page=' + page;
+    var department = $('input[name="department"]').val();
+    if (department) {
+      pageUrl += '&department=' + department;
+    }
     var keywords = $('input[name="keywords"]').val();
     if (keywords) {
       pageUrl += '&keywords=' + keywords;
     }
-     window.location.href = pageUrl;
+    var start = $('input[name="start"]').val();
+    if (start) {
+      pageUrl += '&start=' + start;
+    }
+    var end = $('input[name="end"]').val();
+    if (end) {
+      pageUrl += '&end=' + end;
+    }
+
+    return pageUrl;
   }
 
-  $('#first-page').click(function() {
-    var page = $(this).attr('data-page');
-    goToPage(page);
-  });
+  function getPagePath() {
+    console.log(this);
+    if (this.pageIndex < pageCount) {
+      return getPageUrl(this.pageIndex + 1);
+    }
+  }
 
-  $('#previous-page').click(function() {
-    var page = $(this).attr('data-page');
-    goToPage(page);
-  });
-
-  $('#next-page').click(function() {
-    var page = $(this).attr('data-page');
-    goToPage(page);
-  });
-
-  $('#last-page').click(function() {
-    var page = $(this).attr('data-page');
-    goToPage(page);
+  $('.ideas').infiniteScroll({
+    path: getPagePath,
+    append: '.idea-item',
+    status: '.page-load-status',
   });
 });
