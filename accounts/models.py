@@ -62,6 +62,8 @@ class User(AbstractBaseUser, BaseModel):
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
 
+    can_accept = models.BooleanField(default=False)
+
     objects = UserManager()
 
     USERNAME_FIELD = 'username'

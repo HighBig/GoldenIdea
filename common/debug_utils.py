@@ -98,4 +98,3 @@ def debug(*args, **kwargs):
 
     debug_info = " ".join([smart_str(arg) for arg in args])
     log_wrapper.info(debug_info)
-

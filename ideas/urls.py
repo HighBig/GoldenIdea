@@ -15,4 +15,13 @@ urlpatterns = [
     url(r'^create/$',
         views.create_view,
         name='create'),
+    url(r'^edit/$',
+        views.edit_view,
+        name='edit'),
+    url(r'^export/$',
+        views.export_view,
+        name='export'),
+    url(r'^accept/(?P<idea_id>[0-9]+)/$',
+        views.accept_view,
+        name='accept'),
 ]
