@@ -34,7 +34,6 @@ section.container {
 article.post {
   margin: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #E6EAEE;
 }
 
 article.post:last-child {
@@ -203,4 +202,22 @@ article.post:last-child {
   position: absolute;
   top: 14px;
   right: 14px;
+}
+
+.fa-long-arrow-up, .fa-long-arrow-down {
+  color: #EEE7CE;
+}
+
+.is-light {
+  color: #00EBC0;
+}
+
+.order {
+  color: #4a4a4a;
+  margin-right: 10px;
+}
+
+.idea-item {
+  margin-left: 10px;
+  margin-right: 10px;
 }

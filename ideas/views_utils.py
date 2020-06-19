@@ -9,8 +9,13 @@ def get_ideas(request):
     department_id = request.GET.get('department', '')
     start_timestamp = request.GET.get('start', '')
     end_timestamp = request.GET.get('end', '')
+    order = request.GET.get('order', 'desc').lower()
 
-    idea_list = Idea.objects.all()
+    sort_rule = '-id'
+    if order == 'asc':
+        sort_rule = 'id'
+
+    idea_list = Idea.objects.order_by(sort_rule).all()
     if keywords:
         idea_list = idea_list.filter(
             Q(title__icontains=keywords) | Q(description__icontains=keywords))

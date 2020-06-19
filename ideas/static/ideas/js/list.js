@@ -28,6 +28,7 @@ $(document).ready(function() {
   ideaDate.on('select:start', function(datepicker) {
     console.log('start');
     $('[name="start"]').val(datepicker.data.startDate.getTime());
+    $('[name="end"]').val(null);
   });
 
   ideaDate.on('select', function(datepicker) {
@@ -45,20 +46,22 @@ $(document).ready(function() {
   var isAddIdea = true;
   $('.add-idea').click(function() {
     isAddIdea = true;
-    $('#add-idea-modal').addClass('is-active');
+    $('#idea-modal').addClass('is-active');
   });
 
   var currentIdeaId = null;
+  var currentIdeaNode = null;
   $('.edit-idea').click(function() {
     isAddIdea = false;
     currentIdeaId = $(this).attr('data-idea-id');
+    currentIdeaNode = $(this).parent().parent();
     $('#title').val($(this).attr('data-idea-title'));
     $('#description').val($(this).attr('data-idea-description'));
-    $('#add-idea-modal').addClass('is-active');
+    $('#idea-modal').addClass('is-active');
   });
 
   function closeModal() {
-    $('#add-idea-modal').removeClass('is-active');
+    $('#idea-modal').removeClass('is-active');
     $('#title').val('');
     $('#title').removeClass('is-danger');
     $('#title-help').addClass('hidden');
@@ -73,9 +76,11 @@ $(document).ready(function() {
 
   var isSubmitting = false;
   $('#submit-idea').click(function() {
+    var title = $('#title').val();
+    var description = $('#description').val();
     var data = {
-      'title': $('#title').val(),
-      'description': $('#description').val()
+      'title': title,
+      'description': description
     };
     var url = '/ideas/create/';
     if (!isAddIdea) {
@@ -108,10 +113,15 @@ $(document).ready(function() {
             */
             isSubmitting = false;
             closeModal();
-            window.location.href = '/ideas/list/';
+            if (isAddIdea) {
+              window.location.href = '/ideas/list/';
+            } else {
+              currentIdeaNode.find('h4').text(title);
+              currentIdeaNode.find('.idea-description').text(description);
+            }
           } else {
             bulmaToast.toast({
-              message: "修改失败！",
+              message: "操作失败！",
               type: "is-danger",
               position: "top-center"
             });
@@ -177,6 +187,7 @@ $(document).ready(function() {
   });
   // End for accept idea
 
+  // For infiniteScroll
   function getPageUrl(page) {
     pageUrl = '?page=' + page;
     var department = $('input[name="department"]').val();
@@ -195,12 +206,15 @@ $(document).ready(function() {
     if (end) {
       pageUrl += '&end=' + end;
     }
+    var order = $('input[name="order"]').val();
+    if (order) {
+      pageUrl += '&order=' + order;
+    }
 
     return pageUrl;
   }
 
   function getPagePath() {
-    console.log(this);
     if (this.pageIndex < pageCount) {
       return getPageUrl(this.pageIndex + 1);
     }
@@ -211,4 +225,22 @@ $(document).ready(function() {
     append: '.idea-item',
     status: '.page-load-status',
   });
+  // End for infiniteScroll
+  
+  // For sort
+  $('.order').click(function() {
+    var order = $('input[name="order"]').val();
+    if (order === 'asc') {
+      $('input[name="order"]').val('desc');
+      $('.fa-long-arrow-up').addClass('is-light');
+      $('.fa-long-arrow-down').removeClass('is-light');
+    } else {
+      $('input[name="order"]').val('asc');
+      $('.fa-long-arrow-down').addClass('is-light');
+      $('.fa-long-arrow-up').removeClass('is-light');
+    }
+
+    window.location.href = getPageUrl(1);
+  });
+  // End for sort
 });

@@ -55,6 +55,7 @@
           <input name="start" type="hidden" value="{{ request.GET.start }}" />
           <input name="end" type="hidden" value="{{ request.GET.end }}" />
         </p>
+        <input name="order" type="hidden" value="{{ request.GET.order }}" />
         <div>
           <button class="button is-link search-button" type="submit">
             <strong>搜索</strong>
@@ -127,6 +128,26 @@
   </div>
 </div>
 <section class="container ideas">
+  <nav class="level">
+    <div class="level-left"></div>
+    <div class="level-right">
+      <a class="level-item order">
+        发布时间&nbsp;
+        <i
+          class="fa
+                 fa-long-arrow-up
+                 {% if not request.GET.order or request.GET.order == 'desc' %}is-light{% endif %}"
+          aria-hidden="true"
+        ></i>
+        <i
+          class="fa
+                 fa-long-arrow-down
+                 {% if request.GET.order == 'asc' %}is-light{% endif %}"
+          aria-hidden="true"
+        ></i>
+      </a>
+    </div>
+  </nav>
   {% for idea in ideas %}
   <div class="box content idea-item is-relative">
     <article class="post">
