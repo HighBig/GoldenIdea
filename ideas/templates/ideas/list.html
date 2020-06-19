@@ -207,14 +207,19 @@
   </div>
   {% endfor %}
 </section>
-<div class="page-load-status">
+<div class="page-load-status
+            {% if ideas.paginator.num_pages < 2 %}
+            is-visible
+            {% endif %}"
+>
+  {% if ideas.paginator.num_pages > 1 %}
   <div class="loader-ellips infinite-scroll-request">
     <span class="loader-ellips__dot"></span>
     <span class="loader-ellips__dot"></span>
     <span class="loader-ellips__dot"></span>
     <span class="loader-ellips__dot"></span>
   </div>
+  {% endif %}
   <p class="infinite-scroll-last">亲，我是有底线的</p>
-  <p class="infinite-scroll-error">亲，我是有底线的</p>
 </div>
 {% endblock %}

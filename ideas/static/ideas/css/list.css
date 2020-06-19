@@ -198,6 +198,10 @@ article.post:last-child {
   color: #777;
 }
 
+.is-visible {
+  display: block;
+}
+
 .actions {
   position: absolute;
   top: 14px;

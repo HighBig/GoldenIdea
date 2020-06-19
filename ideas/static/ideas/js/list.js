@@ -220,11 +220,13 @@ $(document).ready(function() {
     }
   }
 
-  $('.ideas').infiniteScroll({
-    path: getPagePath,
-    append: '.idea-item',
-    status: '.page-load-status',
-  });
+  if (pageCount > 1) {
+    $('.ideas').infiniteScroll({
+      path: getPagePath,
+      append: '.idea-item',
+      status: '.page-load-status',
+    });
+  }
   // End for infiniteScroll
   
   // For sort
