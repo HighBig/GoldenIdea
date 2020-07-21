@@ -40,7 +40,7 @@ class Activity(BaseModel):
         return self.option_set \
                    .all() \
                    .annotate(vote_num=Count('vote')) \
-                   .order_by('-vote_num')
+                   .order_by('-vote_num', 'id')
 
     def __str__(self):
         return self.title
