@@ -198,7 +198,7 @@ $(document).ready(function() {
       }
 
       if (isImageEmpty || isContentEmpty) {
-        isValis = false;
+        isValid = false;
         var optionHelpNode = $(this).parent().find('.option-help');
         optionHelpNode.text(optionHelp);
         optionHelpNode.removeClass('hidden');
