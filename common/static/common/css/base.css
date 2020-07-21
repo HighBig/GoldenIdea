@@ -14,3 +14,13 @@
     background-color: unset;
     color: unset;
 }
+
+.navbar-menu .navbar-item {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+#navbar-content > .navbar-start > a.navbar-item:hover {
+    background-color: #fafafa;
+    color: #3273dc;
+}

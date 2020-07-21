@@ -26,10 +26,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('ideas/', include('ideas.urls', namespace='ideas')),
+    path('activities/', include('activities.urls', namespace='activities')),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.LOGS_URL, document_root=settings.LOGS_DIR)
     LETSENCRYPTIT_URL = '/.well-known/'
     LETSENCRYPTIT_ROOT = os.path.join(settings.BASE_DIR, ".well-known")

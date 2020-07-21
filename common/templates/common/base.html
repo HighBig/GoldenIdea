@@ -1,20 +1,23 @@
 {% load static %}
 <!DOCTYPE html>
 <html class="has-navbar-fixed-top">
-  <header>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
-    <title>金点子</title>
+    <title>
+    {% block title %}
+    {% endblock %}
+    </title>
     <script src="{% static "common/js/jquery.min.js" %}"></script>
     <script src="{% static "common/js/bulma-toast.min.js" %}"></script>
-    <script src="{% static "ideas/js/base.js" %}"></script>
+    <script src="{% static "common/js/base.js" %}"></script>
     <link rel="stylesheet" href="{% static "common/css/font-awesome.min.css" %}" />
     <link rel="stylesheet" href="{% static "common/css/bulma.min.css" %}" />
-    <link rel="stylesheet" href="{% static "ideas/css/base.css" %}" />
+    <link rel="stylesheet" href="{% static "common/css/base.css" %}" />
     {% block static %}
     {% endblock %}
-  </header>
+  </head>
   <body>
     <nav
       class="navbar is-white is-fixed-top topNav"
@@ -24,17 +27,25 @@
       <div class="container">
         <div class="navbar-brand">
           <a class="navbar-item" href="/">
-            <img src="{% static "ideas/img/evercan-logo.png" %}" />
+            <img src="{% static "common/img/evercan-logo.png" %}" />
           </a>
 
-          <a role="button" class="navbar-burger burger" data-target="navbar-user" aria-label="menu" aria-expanded="false">
+          <a role="button" class="navbar-burger burger" data-target="navbar-content" aria-label="menu" aria-expanded="false">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
           </a>
         </div>
 
-        <div id="navbar-user" class="navbar-menu">
+        <div id="navbar-content" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item" href="{% url 'ideas:list' %}">
+              金点子
+            </a>
+            <a class="navbar-item" href="{% url 'activities:list' %}">
+              投票
+            </a>
+          </div>
           <div class="navbar-end">
             <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link">

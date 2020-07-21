@@ -15,6 +15,16 @@ from common.debug_utils import debug
 
 
 @login_required(login_url='/accounts/login')
+def ajax_list_view(request):
+    idea_list = get_ideas(request)
+    paginator = Paginator(idea_list, 10)
+
+    page = request.GET.get('page', 1)
+    ideas = paginator.get_page(page)
+    return json_response({'ideas': ideas})
+
+
+@login_required(login_url='/accounts/login')
 def list_view(request):
     idea_list = get_ideas(request)
     paginator = Paginator(idea_list, 10)

@@ -1,0 +1,107 @@
+{% extends 'common/base.html' %}
+
+{% load static %}
+{% block title %}
+投票活动列表
+{% endblock %}
+{% block static %}
+<link rel="stylesheet" href="{% static "common/css/bulma-calendar.min.css" %}" />
+<link rel="stylesheet" href="{% static "activities/css/list.css" %}" />
+<script src="{% static "common/js/infinite-scroll.pkgd.min.js" %}"></script>
+<script src="{% static "activities/js/list.js" %}"></script>
+<script>
+  var pageCount = {{ activities.paginator.num_pages }};
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="tabs is-centered">
+  <input name="status" type="hidden" value="{{ request.GET.status }}" />
+  <ul>
+    {% with status=request.GET.status %}
+    <li class="{% if not status or status == '0' %}is-active{% endif %}">
+      <a href="{% url 'activities:list' %}?status=0">进行中</a>
+    </li>
+    <li class="{% if status == '1' %}is-active{% endif %}">
+      <a href="{% url 'activities:list' %}?status=1">已结束</a>
+    </li>
+    {% endwith %}
+  </ul>
+</div>
+<section class="container">
+  {% if request.user.can_create_vote %}
+  <nav class="level">
+    <div class="level-left"></div>
+    <div class="level-right">
+      <div class="level-item">
+        <a class="button is-info">
+          <strong>发起投票</strong>
+        </a>
+      </div>
+    </div>
+  </nav>
+  {% endif %}
+  <div class="columns activities is-multiline">
+    {% for activity in activities %}
+    <div class="column is-one-third activity-item">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            投票
+          </p>
+          <a href="#" class="card-header-icon" aria-label="more options">
+            <span class="icon">
+              <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+          </a>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            {{activity.title}}
+          </div>
+          <div>
+            投票截止日期：{{activity.end_datetime|date:"Y-m-d H:i:s"}}
+          </div>
+        </div>
+        <footer class="card-footer">
+          <a 
+            href="{% url 'activities:detail' activity.id %}"
+            class="card-footer-item"
+          >
+            {% if activity.is_finished or request.user.id in activity.voted_users %}
+            查看
+            {% else %}
+            参与投票
+            {% endif %}
+          </a>
+        </footer>
+      </div>
+    </div>
+    {% empty %}
+    <div class="container no-data-box">
+      <div class="is-flex no-data">
+        <img src="{% static "common/img/empty.png" %}" />
+      </div>
+      <div class="is-flex no-data">
+        <div>暂无投票活动</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+<div class="page-load-status
+            {% if activities.paginator.num_pages < 2 %}
+            is-visible
+            {% endif %}"
+>
+  {% if activities.paginator.num_pages > 1 %}
+  <div class="loader-ellips infinite-scroll-request">
+    <span class="loader-ellips__dot"></span>
+    <span class="loader-ellips__dot"></span>
+    <span class="loader-ellips__dot"></span>
+    <span class="loader-ellips__dot"></span>
+  </div>
+  {% endif %}
+  <p class="infinite-scroll-last"></p>
+</div>
+{% endblock %}

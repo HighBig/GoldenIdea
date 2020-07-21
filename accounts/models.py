@@ -64,6 +64,8 @@ class User(AbstractBaseUser, BaseModel):
 
     can_accept = models.BooleanField(default=False)
 
+    can_create_vote = models.BooleanField(default=False)
+
     objects = UserManager()
 
     USERNAME_FIELD = 'username'

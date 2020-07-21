@@ -1,6 +1,9 @@
-{% extends 'ideas/base.html' %}
+{% extends 'common/base.html' %}
 
 {% load static %}
+{% block title %}
+金点子
+{% endblock %}
 {% block static %}
 <link rel="stylesheet" href="{% static "common/css/bulma-calendar.min.css" %}" />
 <link rel="stylesheet" href="{% static "ideas/css/list.css" %}?v=1" />
@@ -200,10 +203,10 @@
   </div>
   {% empty %}
   <div class="is-flex no-data">
-    <img src="{% static "ideas/img/empty.png" %}" />
+    <img src="{% static "common/img/empty.png" %}" />
   </div>
   <div class="is-flex no-data">
-    <div>暂无数据</div>
+    <div>暂无金点子</div>
   </div>
   {% endfor %}
 </section>

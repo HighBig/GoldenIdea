@@ -2,29 +2,23 @@ from django.conf.urls import url
 from . import views
 
 
-app_name = 'ideas.views'
+app_name = 'activities.views'
 
 
 urlpatterns = [
     url(r'^list/$',
         views.list_view,
         name='list'),
-    url(r'^ajax_list/$',
-        views.ajax_list_view,
-        name='ajax-list'),
-    url(r'^detail/(?P<idea_id>[0-9]+)/$',
+    url(r'^detail/(?P<activity_id>[0-9]+)/$',
         views.detail_view,
         name='detail'),
     url(r'^create/$',
         views.create_view,
         name='create'),
+    url(r'^vote/$',
+        views.vote_view,
+        name='vote'),
     url(r'^edit/$',
         views.edit_view,
         name='edit'),
-    url(r'^export/$',
-        views.export_view,
-        name='export'),
-    url(r'^accept/(?P<idea_id>[0-9]+)/$',
-        views.accept_view,
-        name='accept'),
 ]

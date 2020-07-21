@@ -84,11 +84,11 @@ $(document).ready(function() {
     if (clickBurger) {
       clickBurger = false;
       $(this).removeClass('is-active');
-      $('#navbar-user').removeClass('is-active');
+      $('#navbar-content').removeClass('is-active');
     } else {
       clickBurger = true;
       $(this).addClass('is-active');
-      $('#navbar-user').addClass('is-active');
+      $('#navbar-content').addClass('is-active');
     }
   });
 });

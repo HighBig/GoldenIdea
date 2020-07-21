@@ -225,6 +225,7 @@ $(document).ready(function() {
       path: getPagePath,
       append: '.idea-item',
       status: '.page-load-status',
+      prefill: true
     });
   }
   // End for infiniteScroll

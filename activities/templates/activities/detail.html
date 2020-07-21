@@ -1,0 +1,114 @@
+{% extends 'common/base.html' %}
+
+{% load static %}
+{% block title %}
+投票详情
+{% endblock %}
+{% block static %}
+<link rel="stylesheet" href="{% static "activities/css/common.css" %}" />
+<link rel="stylesheet" href="{% static "activities/css/detail.css" %}" />
+<script src="{% static "activities/js/common.js" %}"></script>
+<script src="{% static "activities/js/detail.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+<section class="container">
+  <nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+      <li><a href="{% url 'activities:list' %}">投票</a></li>
+      <li class="is-active"><a href="#" aria-current="page">投票详情</a></li>
+    </ul>
+  </nav>
+</section>
+<section class="hero container">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title">
+        {{activity.title}}
+      </h1>
+      <h2 class="subtitle">
+        投票截止日期：{{activity.end_datetime|date:"Y-m-d H:i:s"}}
+      </h2>
+    </div>
+  </div>
+  {% with user_id=request.user.id %}
+  <form
+    class="vote-form"
+    method="post"
+    enctype="multipart/form-data"
+    action="{% url 'activities:vote' %}"
+  >
+    {% csrf_token %}
+    <input type="hidden" name="activity_id" value="{{activity.id}}" />
+    <div class="columns is-multiline option-container">
+      {% for option in activity.get_ordered_options %}
+      <div class="column is-one-third">
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">
+              选项({{option.vote_set.count}})
+            </p>
+            {% if not activity.is_finished and user_id not in activity.voted_users %}
+            <div class="radio-box">
+              <input type="radio" name="option_id" value="{{option.id}}" />
+            </div>
+            {% elif user_id in option.get_voters %}
+            <div class="ribbon ribbon-top-right">
+              <span>已投票</span>
+            </div>
+            {% endif %}
+          </header>
+          <div class="card-image">
+            <figure class="image is-4by3 image-box">
+              <img class="option-image" src="{{option.image.url}}" />
+              <div class="actions is-hidden">
+                <a
+                  class="button is-primary is-light preview-image"
+                  title="预览图片"
+                >
+                  <span class="icon">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                  </span>
+                </a>
+              </div>
+            </figure>
+          </div>
+          <div class="card-content">
+            <div class="content">
+              {{option.content}}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="field is-grouped is-justified-center button-box">
+      {% if not activity.is_finished and user_id not in activity.voted_users %}
+      <div class="control">
+        <button class="button is-link">投票</button>
+      </div>
+      {% endif %}
+      <div class="control">
+        <a
+          type="button"
+          class="button is-link is-light"
+          href="{% url 'activities:list' %}"
+        >
+          返回列表
+        </a>
+      </div>
+    </div>
+  </form>
+  {% endwith %}
+</section>
+
+<div class="modal" id="image-modal">
+  <div class="modal-background"></div>
+  <div class="">
+    <p class="image">
+      <img class="modal-image">
+    </p>
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
+</div>
+{% endblock %}
