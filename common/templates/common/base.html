@@ -39,10 +39,16 @@
 
         <div id="navbar-content" class="navbar-menu">
           <div class="navbar-start">
-            <a class="navbar-item" href="{% url 'ideas:list' %}">
+            <a
+              class="navbar-item {% if 'ideas' in request.path %}is-active{% endif %}"
+              href="{% url 'ideas:list' %}"
+            >
               金点子
             </a>
-            <a class="navbar-item" href="{% url 'activities:list' %}">
+            <a
+              class="navbar-item {% if 'activities' in request.path %}is-active{% endif %}"
+              href="{% url 'activities:list' %}"
+            >
               投票
             </a>
           </div>
