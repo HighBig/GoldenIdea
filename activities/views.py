@@ -41,7 +41,7 @@ def vote_view(request):
     activity_id = request.POST.get('activity_id', None)
     activity = get_object_or_404(Activity, pk=activity_id)
     user = request.user
-    if user.id not in activity.voted_users:
+    if not activity.is_finished and user.id not in activity.voted_users:
         option_id = request.POST.get('option_id', None)
         option = get_object_or_404(Option, pk=option_id)
         vote = Vote()
