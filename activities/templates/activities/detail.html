@@ -58,9 +58,9 @@
               <span>已投票</span>
             </div>
             {% elif not activity.is_finished and user_id not in activity.vote_done_users %}
-            <div class="checkbox">
+            <label class="checkbox">
               <input type="checkbox" name="option_id" value="{{option.id}}" />
-            </div>
+            </label>
             {% endif %}
           </header>
           <div class="card-image">
