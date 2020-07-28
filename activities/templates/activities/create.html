@@ -31,12 +31,35 @@
       <p id="title-help" class="help is-danger hidden"></p>
     </div>
 
-    <div class="field">
-      <label class="label">截止时间</label>
-      <div class="columns">
-        <div class="column is-one-third control">
-          <input name="end_datetime" type="date" />
-          <p id="end-datetime-help" class="help is-danger hidden"></p>
+    <div class="columns">
+      <div class="column is-one-third">
+        <div class="field">
+          <label class="label">截止时间</label>
+          <div class="control">
+            <input name="end_datetime" type="date" />
+            <p id="end-datetime-help" class="help is-danger hidden"></p>
+          </div>
+        </div>
+      </div>
+      <div class="column is-one-third">
+        <div class="field">
+          <label class="label">每位投票者最多可投</label>
+          <div class="control">
+            <div class="select">
+              <select name="vote_num_per_user">
+                <option value="1">1票</option>
+                <option value="2">2票</option>
+                <option value="3">3票</option>
+                <option value="4">4票</option>
+                <option value="5">5票</option>
+                <option value="6">6票</option>
+                <option value="7">7票</option>
+                <option value="8" selected>8票</option>
+                <option value="9">9票</option>
+                <option value="10">10票</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
     </div>

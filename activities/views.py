@@ -31,9 +31,11 @@ def list_view(request):
 @login_required(login_url='/accounts/login')
 def detail_view(request, activity_id):
     activity = get_object_or_404(Activity, pk=activity_id)
+    remaining_vote_num = activity.get_remaining_vote_num(request.user)
     return render(
         request, 'activities/detail.html',
-        {'activity': activity})
+        {'activity': activity,
+         'remaining_vote_num': remaining_vote_num})
 
 
 @login_required(login_url='/accounts/login')
@@ -41,13 +43,14 @@ def vote_view(request):
     activity_id = request.POST.get('activity_id', None)
     activity = get_object_or_404(Activity, pk=activity_id)
     user = request.user
-    if not activity.is_finished and user.id not in activity.voted_users:
-        option_id = request.POST.get('option_id', None)
-        option = get_object_or_404(Option, pk=option_id)
-        vote = Vote()
-        vote.option = option
-        vote.voter = user
-        vote.save()
+    option_id_list = request.POST.getlist('option_id', [])
+    if (not activity.is_finished and not activity.get_remaining_vote_num(user) < len(option_id_list)):
+        for option_id in option_id_list:
+            option = get_object_or_404(Option, pk=option_id)
+            vote = Vote()
+            vote.option = option
+            vote.voter = user
+            vote.save()
 
     return redirect('/activities/detail/%s/' % activity_id)
 
@@ -60,6 +63,7 @@ def create_view(request):
     if request.POST:
         activity = Activity()
         activity.title = request.POST.get('title', '')
+        activity.vote_num_per_user = request.POST.get('vote_num_per_user', 8)
         activity.sponsor = request.user
         activity.end_datetime = request.POST.get('end_datetime', None)
         activity.save()

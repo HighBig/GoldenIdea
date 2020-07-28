@@ -68,8 +68,10 @@
             href="{% url 'activities:detail' activity.id %}"
             class="card-footer-item"
           >
-            {% if activity.is_finished or request.user.id in activity.voted_users %}
+            {% if activity.is_finished or request.user.id in activity.vote_done_users %}
             查看
+            {% elif request.user.id in activity.voted_users %}
+            继续投票
             {% else %}
             参与投票
             {% endif %}

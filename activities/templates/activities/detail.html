@@ -8,6 +8,9 @@
 <link rel="stylesheet" href="{% static "activities/css/common.css" %}" />
 <link rel="stylesheet" href="{% static "activities/css/detail.css" %}" />
 <script src="{% static "activities/js/common.js" %}"></script>
+<script>
+  var remaining_vote_num = {{remaining_vote_num}};
+</script>
 <script src="{% static "activities/js/detail.js" %}"></script>
 {% endblock %}
 
@@ -27,8 +30,10 @@
         {{activity.title}}
       </h1>
       <h2 class="subtitle">
+        每位投票者最多可投{{activity.vote_num_per_user}}票</br>
         投票截止日期：{{activity.end_datetime|date:"Y-m-d H:i:s"}}
       </h2>
+
     </div>
   </div>
   {% with user_id=request.user.id %}
@@ -48,13 +53,13 @@
             <p class="card-header-title">
               选项({{option.vote_set.count}})
             </p>
-            {% if not activity.is_finished and user_id not in activity.voted_users %}
-            <div class="radio-box">
-              <input type="radio" name="option_id" value="{{option.id}}" />
-            </div>
-            {% elif user_id in option.get_voters %}
+            {% if user_id in option.get_voters %}
             <div class="ribbon ribbon-top-right">
               <span>已投票</span>
+            </div>
+            {% elif not activity.is_finished and user_id not in activity.vote_done_users %}
+            <div class="checkbox">
+              <input type="checkbox" name="option_id" value="{{option.id}}" />
             </div>
             {% endif %}
           </header>
@@ -83,7 +88,7 @@
       {% endfor %}
     </div>
     <div class="field is-grouped is-justified-center button-box">
-      {% if not activity.is_finished and user_id not in activity.voted_users %}
+      {% if not activity.is_finished and user_id not in activity.vote_done_users %}
       <div class="control">
         <button class="button is-link">投票</button>
       </div>

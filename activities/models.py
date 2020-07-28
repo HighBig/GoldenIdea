@@ -18,6 +18,7 @@ class Activity(BaseModel):
     )
     end_datetime = models.DateTimeField(blank=True, null=True)
     status = models.IntegerField(default=0, choices=STATUSES)
+    vote_num_per_user = models.IntegerField(default=8)
 
     @property
     def is_finished(self):
@@ -36,11 +37,27 @@ class Activity(BaseModel):
                    .filter(option__in=self.option_set.all()) \
                    .values_list('voter', flat=True)
 
+    @property
+    def vote_done_users(self):
+        return Vote.objects \
+                   .filter(option__in=self.option_set.all()) \
+                   .values('voter') \
+                   .annotate(voter_count=Count('voter')) \
+                   .filter(voter_count__gte=self.vote_num_per_user) \
+                   .values_list('voter', flat=True)
+
     def get_ordered_options(self):
         return self.option_set \
                    .all() \
                    .annotate(vote_num=Count('vote')) \
                    .order_by('-vote_num', 'id')
+
+    def get_remaining_vote_num(self, user):
+        voted_count = user.vote_set \
+                          .filter(option__activity=self.id) \
+                          .count()
+        remaining_vote_num = self.vote_num_per_user - voted_count
+        return remaining_vote_num
 
     def __str__(self):
         return self.title
