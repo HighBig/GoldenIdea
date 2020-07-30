@@ -46,12 +46,15 @@
     {% csrf_token %}
     <input type="hidden" name="activity_id" value="{{activity.id}}" />
     <div class="columns is-multiline option-container">
-      {% for option in activity.get_ordered_options %}
+      {% for option in options %}
       <div class="column is-one-third">
         <div class="card">
           <header class="card-header">
             <p class="card-header-title">
-              选项({{option.vote_set.count}})
+              选项
+              {% if activity.is_finished %}
+              ({{option.vote_set.count}})
+              {% endif %}
             </p>
             {% if user_id in option.get_voters %}
             <div class="ribbon ribbon-top-right">

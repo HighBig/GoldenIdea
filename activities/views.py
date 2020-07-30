@@ -32,9 +32,14 @@ def list_view(request):
 def detail_view(request, activity_id):
     activity = get_object_or_404(Activity, pk=activity_id)
     remaining_vote_num = activity.get_remaining_vote_num(request.user)
+    options = activity.option_set.all()
+    if activity.is_finished:
+        options = activity.get_ordered_options()
+
     return render(
         request, 'activities/detail.html',
         {'activity': activity,
+         'options': options,
          'remaining_vote_num': remaining_vote_num})
 
 
