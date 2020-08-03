@@ -13,10 +13,6 @@
   right: 10px;
 }
 
-#image-modal {
-  overflow: scroll;
-}
-
 .field.is-grouped.is-justified-center {
   justify-content: center;
 }
