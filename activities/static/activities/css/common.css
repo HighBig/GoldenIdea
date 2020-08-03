@@ -17,11 +17,6 @@
   overflow: scroll;
 }
 
-.image img.modal-image {
-  width: unset;
-  max-width: unset;
-}
-
 .field.is-grouped.is-justified-center {
   justify-content: center;
 }
