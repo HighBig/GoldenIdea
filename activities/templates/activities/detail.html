@@ -68,7 +68,10 @@
           </header>
           <div class="card-image">
             <figure class="image is-4by3 image-box">
-              <img class="option-image" src="{{option.image.url}}" />
+              <a href="{{option.image.url}}" target="_blank" title="预览图片">
+                <img class="option-image" src="{{option.image.url}}" />
+              </a>
+              <!--
               <div class="actions is-hidden">
                 <a
                   class="button is-primary is-light preview-image"
@@ -79,6 +82,7 @@
                   </span>
                 </a>
               </div>
+              -->
             </figure>
           </div>
           <div class="card-content">
